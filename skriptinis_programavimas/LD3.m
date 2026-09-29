@@ -1,51 +1,32 @@
-%Arnas_Markiavičius_EEf-25/2
-%2026-09-22
-
-% 1. Dvimatis grafikų vaizdavimas
-
-%a
-x = 0:0.1:2*pi;
-f = x.^3 + tan(x);
-
-figure(1)
-plot(x, f, 'bo');
-
-axis([min(x) max(x) min(f) max(f)]);
-
-grid on;
-
-title('f(x) = x^3 + tan(x)');
-xlabel('x');
-ylabel('f(x)');
-legend('f(x) = x^3 + tan(x)', 'Location', 'bestoutside'); 
-
-%b
-x = 0:0.01:2;
-
-f1 = exp(x);
-f2 = exp(2*x);
-f3 = exp(3*x);
-
-figure(2)
-plot(x, f1, 'b', ...
-    x, f2, 'r', ...
-    x, f3, 'g');
-
-axis([min(x) max(x) min([f1 f2 f3]) max([f1 f2 f3])]);
-
-grid on;
-
-title('Eksponentinės funkcijos');
-xlabel('x');
-ylabel('f(x)');
-legend('e^x', 'e^{2x}', 'e^{3x}', 'Location', 'bestoutside');
-
-% 2. Specializuotų grafikų kūrimas
+% Arnas_Markiavičius_EEf-25/2
+% 2026-09-22
 
 clc;
 clear;
 close all;
 
+
+%% 1. DVIMATIS GRAFIKŲ VAIZDAVIMAS
+
+% 1a
+figure (1)
+x1 = 0:0.1:2*pi;
+f = x1.^3 + tan(x1);
+plot(x1, f)
+
+% 1b
+figure(2)
+x2 = 0:0.01:2;
+
+f1 = exp(x2);
+f2 = exp(2*x2);
+f3 = exp(3*x2);
+
+hold on
+plot(x2, f1,x2, f2,x2, f3)
+
+
+%% 2. SPECIALIZUOTŲ GRAFIKŲ KŪRIMAS
 pazymiai = [
     8  6  9  7;
     7  8 10  9;
@@ -58,7 +39,7 @@ pazymiai = [
 studentai = {'Jonas', 'Petras', 'Ona', 'Ieva', 'Tomas', 'Laura'};
 
 
-figure;
+figure(3);
 
 
 %% 2a ir 2c
@@ -104,12 +85,7 @@ ylim([0 40]);
 
 grid on;
 
-%P. Signalų grafinis atvaizdavimas
-
-
-clc;
-clear;
-close all;
+%% P. SIGNALŲ GRAFINIS ATVAIZDAVIMAS
 
 A = 7;
 f = 9;
@@ -127,12 +103,108 @@ n = ro*randn(size(t));
 sn = s + n;
 
 
-figure;
+%% VISI GRAFAI VIENAME LANGE
+
+figure('Name','Laboratorinio darbo grafikai');
+
+sgtitle('Laboratorinio darbo rezultatai');
 
 
+% =========================================================
+% 1. DVIMATIS GRAFIKŲ VAIZDAVIMAS
+% =========================================================
+
+% 1a
+subplot(3,2,1);
+
+plot(x1, f, 'bo');
+
+
+grid on;
+
+title('1a. f(x) = x^3 + tan(x)');
+xlabel('x');
+ylabel('f(x)');
+
+legend('f(x) = x^3 + tan(x)', ...
+       'Location', 'best');
+
+
+% 1b
+subplot(3,2,2);
+
+plot(x2, f1, 'b', ...
+     x2, f2, 'r', ...
+     x2, f3, 'g');
+
+axis([min(x2) max(x2) min([f1 f2 f3]) max([f1 f2 f3])]);
+
+grid on;
+
+title('1b. Eksponentinės funkcijos');
+xlabel('x');
+ylabel('f(x)');
+
+legend('e^x', ...
+       'e^{2x}', ...
+       'e^{3x}', ...
+       'Location', 'best');
+
+
+% =========================================================
+% 2. SPECIALIZUOTŲ GRAFIKŲ KŪRIMAS
+% =========================================================
+
+% 2a ir 2c
+subplot(3,2,3);
+
+bar(pazymiai);
+
+xlabel('Studentai');
+ylabel('Įvertinimas');
+
+title('2a. Studentų egzaminų rezultatai');
+
+ylim([0 10]);
+
+xticks(1:6);
+xticklabels(studentai);
+
+legend('1 egzaminas', ...
+       '2 egzaminas', ...
+       '3 egzaminas', ...
+       '4 egzaminas', ...
+       'Location', 'best');
+
+grid on;
+
+
+% 2b ir 2c
+subplot(3,2,4);
+
+bar(pazymiai, 'stacked');
+
+xlabel('Studentai');
+ylabel('Įvertinimų suma');
+
+title('2b. Studentų egzaminų rezultatų suma');
+
+xticks(1:6);
+xticklabels(studentai);
+
+ylim([0 40]);
+
+grid on;
+
+
+% =========================================================
+% P. SIGNALŲ GRAFINIS ATVAIZDAVIMAS
+% =========================================================
+
+% P-a
 subplot(2,1,1);
 
-plot(t, s, '--', 'LineWidth', 1);
+plot(t, s, '-.', 'LineWidth', 1);
 
 hold on;
 
@@ -147,48 +219,59 @@ hold off;
 xlabel('Laikas, s');
 ylabel('Įtampa, V');
 
-title('Pradinis ir filtruotas signalai');
+title('P-a. Pradinis ir filtruotas signalai');
 
 legend('Pradinis signalas', ...
-    'Filtruotas signalas', ...
-    'U_1 riba', ...
-    'U_2 riba', ...
-    'Location', 'southwest');
+       'Filtruotas signalas', ...
+       'U_1 riba', ...
+       'U_2 riba', ...
+       'Location', 'southwest');
 
-grid off;
+grid on;
 
 axis([min(t) max(t) min([s sn])-1 max([s sn])+1]);
 
 
-
+% P-b
 subplot(2,1,2);
 
 indeksai = s > U1;
 
 stem(t(indeksai), s(indeksai), ...
-    'filled', 'LineWidth', 1);
+     'filled', ...
+     'LineWidth', 1);
 
 hold on;
 
 
+% Minimalios reikšmės
 minimumai = islocalmin(s);
 
 plot(t(minimumai), s(minimumai), ...
-    'ko', ...
-    'MarkerFaceColor', 'k', ...
-    'MarkerSize', 5);
+     'ko', ...
+     'MarkerFaceColor', 'k', ...
+     'MarkerSize', 5);
+
+
+% Maksimalios reikšmės
+maksimumai = islocalmax(s);
+
+plot(t(maksimumai), s(maksimumai), ...
+     'ko', ...
+     'MarkerFaceColor', 'k', ...
+     'MarkerSize', 5);
 
 hold off;
 
 xlabel('Laikas, s');
 ylabel('Įtampa, V');
 
-title('Pradinio signalo reikšmės virš U_1');
+title('P-b. Pradinio signalo reikšmės virš U_1');
 
 legend('s > U_1', ...
-    'Minimalios įtampos reikšmės', ...
-    'Location', 'southwest');
+       'Minimalios ir maksimalios įtampos reikšmės', ...
+       'Location', 'southwest');
 
-grid off;
+grid on;
 
 axis([min(t) max(t) min(s)-1 max(s)+1]);
